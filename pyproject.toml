@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ryzen-mobile-power-optimizer"
+version = "0.1.0"
+description = "Python harness for selecting optimal power profile settings for mobile Ryzen processors"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+keywords = ["ryzen", "amd", "power", "laptop", "cpufreq", "linux"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: System :: Hardware",
+    "Topic :: Utilities",
+]
+
+[project.scripts]
+ryzen-power-optimizer = "ryzen_mobile_power_optimizer.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["ryzen_mobile_power_optimizer*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 99
+target-version = "py39"

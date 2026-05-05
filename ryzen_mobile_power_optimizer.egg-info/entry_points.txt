@@ -1,0 +1,2 @@
+[console_scripts]
+ryzen-power-optimizer = ryzen_mobile_power_optimizer.cli:main
