@@ -9,7 +9,17 @@
 
 ## Required Tools Installation
 
-### 1. Install `ryzenadj` (Ryzen CPU Power Control)
+### 1. Install Python 3
+
+```bash
+sudo apt update
+sudo apt install -y python3
+
+# Verify installation
+python3 --version
+```
+
+### 2. Install `ryzenadj` (Ryzen CPU Power Control)
 
 ```bash
 # Ubuntu/Debian systems
@@ -30,7 +40,7 @@ ninja -C build
 sudo ninja -C build install
 ```
 
-### 2. Install `sysbench` (CPU Benchmark Tool)
+### 3. Install `sysbench` (CPU Benchmark Tool)
 
 ```bash
 sudo apt update
@@ -40,7 +50,7 @@ sudo apt install -y sysbench
 sysbench --version
 ```
 
-### 3. Install `stress-ng` (CPU/Memory Stress Tool)
+### 4. Install `stress-ng` (CPU/Memory Stress Tool)
 
 ```bash
 sudo apt update
@@ -50,7 +60,7 @@ sudo apt install -y stress-ng
 stress-ng --version
 ```
 
-### 4. Ensure `ryzen_smu` Kernel Module is Loaded
+### 5. Ensure `ryzen_smu` Kernel Module is Loaded
 
 ```bash
 # Check if module is loaded
@@ -63,22 +73,15 @@ sudo modprobe ryzen_smu
 echo "ryzen_smu" | sudo tee -a /etc/modules
 ```
 
-### 5. Configure Sudo Without Password (Recommended)
+### 6. Sudo Usage (Security Recommendation)
 
-To avoid entering password multiple times during the test:
+Use the default `sudo` behavior (password required). This is the recommended and safer setup.
 
-```bash
-# Open sudoers editor (use visudo for safety)
-sudo visudo
+The scripts only need elevated privileges for `ryzenadj` operations. You can keep standard sudo prompts and run tests normally.
 
-# Add these lines at the end:
-# Allow running ryzenadj and sysbench without password
-<your_username> ALL=(ALL) NOPASSWD: /usr/bin/ryzenadj, /usr/bin/sysbench
-```
+Avoid adding `NOPASSWD` sudo rules unless you explicitly accept the security tradeoff on your machine.
 
-**Replace `<your_username>`** with your actual username (run `whoami` to check).
-
-### 6. Python Standard Library (No External Dependencies Required)
+### 7. Python Standard Library (No External Dependencies Required)
 
 The script uses only Python standard library modules:
 - `subprocess` - run system commands
@@ -87,6 +90,8 @@ The script uses only Python standard library modules:
 - `statistics` - calculate mean/deviation
 - `datetime` - timestamp reports
 - `os`, `sys` - file/system operations
+
+No virtual environment is required for this project. A `venv` is optional if you prefer local package isolation.
 
 **Optional** (for prettier terminal output):
 ```bash
@@ -143,10 +148,10 @@ else
 fi
 
 # Check sudo access
-if sudo -l | grep -q ryzenadj; then
-    echo "✓ ryzenadj configured in sudoers"
+if sudo -n true 2>/dev/null; then
+    echo "✓ sudo credentials are currently cached"
 else
-    echo "⚠ ryzenadj not in sudoers NOPASSWD. Password will be required."
+    echo "ℹ sudo will prompt for your password when needed (recommended default)"
 fi
 
 echo ""
@@ -169,7 +174,7 @@ which ryzenadj
 # Check sudo access
 sudo ryzenadj -i
 
-# If you need password, add to sudoers (see step 5 above)
+# If you need password, add to sudoers (see step 6 above)
 ```
 
 ### "ryzen_smu kernel module not found"
