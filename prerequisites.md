@@ -40,7 +40,17 @@ sudo apt install -y sysbench
 sysbench --version
 ```
 
-### 3. Ensure `ryzen_smu` Kernel Module is Loaded
+### 3. Install `stress-ng` (CPU/Memory Stress Tool)
+
+```bash
+sudo apt update
+sudo apt install -y stress-ng
+
+# Verify installation
+stress-ng --version
+```
+
+### 4. Ensure `ryzen_smu` Kernel Module is Loaded
 
 ```bash
 # Check if module is loaded
@@ -53,7 +63,7 @@ sudo modprobe ryzen_smu
 echo "ryzen_smu" | sudo tee -a /etc/modules
 ```
 
-### 4. Configure Sudo Without Password (Recommended)
+### 5. Configure Sudo Without Password (Recommended)
 
 To avoid entering password multiple times during the test:
 
@@ -68,7 +78,7 @@ sudo visudo
 
 **Replace `<your_username>`** with your actual username (run `whoami` to check).
 
-### 5. Python Standard Library (No External Dependencies Required)
+### 6. Python Standard Library (No External Dependencies Required)
 
 The script uses only Python standard library modules:
 - `subprocess` - run system commands
@@ -117,6 +127,14 @@ else
     exit 1
 fi
 
+# Check stress-ng
+if command -v stress-ng &> /dev/null; then
+    echo "✓ stress-ng installed"
+else
+    echo "✗ stress-ng not found. Install with: sudo apt install stress-ng"
+    exit 1
+fi
+
 # Check ryzen_smu kernel module
 if lsmod | grep -q ryzen_smu; then
     echo "✓ ryzen_smu kernel module loaded"
@@ -151,7 +169,7 @@ which ryzenadj
 # Check sudo access
 sudo ryzenadj -i
 
-# If you need password, add to sudoers (see step 4 above)
+# If you need password, add to sudoers (see step 5 above)
 ```
 
 ### "ryzen_smu kernel module not found"
@@ -180,4 +198,11 @@ cd /path/to/ryzen-mobile-power-optimizer
 python3 power_optimizer.py
 ```
 
-Follow the interactive prompts to configure and run the power optimization tests.
+Run standalone stability tests for current settings:
+
+```bash
+cd /path/to/ryzen-mobile-power-optimizer
+python3 cpu_stability_test.py
+```
+
+Follow the interactive prompts to configure and run either workflow.

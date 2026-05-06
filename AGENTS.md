@@ -72,4 +72,13 @@ Benchmark (30 seconds per iteration)
 sysbench cpu --threads=$(nproc) --time=30 run
 ```
 
+https://www.calculator.net/hex-calculator.html?number1=100000&c2op=-&number2=15&calctype=op&x=Calculate
+
+Undervolts with 15mv.
+```
+sudo ryzenadj --set-coall=0xFFFEB // 13
+sudo ryzenadj --set-coall=0xFFFE0 // 20
+sudo ryzenadj --slow-limit=27000 --fast-limit=32000 --set-coall=0xFFFE0
+sudo ryzenadj --slow-limit=27000 --fast-limit=32000 --set-coall=0xFFFE0 --power-saving 
+```
 
