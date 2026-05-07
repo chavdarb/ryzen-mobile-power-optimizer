@@ -18,6 +18,8 @@ The script steps through CPU power levels from a configurable starting point up 
 
 See [prerequisites.md](prerequisites.md) for detailed installation instructions.
 
+See [power-configuration.md](power-configuration.md) for detailed instructions on how to make custom power settings persistent.
+
 ## Usage
 
 ### Power Sweep Optimizer

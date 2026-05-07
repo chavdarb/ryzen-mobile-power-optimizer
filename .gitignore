@@ -20,6 +20,8 @@ env/
 power-test-report-*.csv
 stability-report-*.csv
 *.log
+!results/
+!results/**
 
 # Editor / IDE
 .vscode/
