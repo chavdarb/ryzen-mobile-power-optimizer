@@ -20,6 +20,15 @@ See [prerequisites.md](prerequisites.md) for detailed installation instructions.
 
 See [power-configuration.md](power-configuration.md) for detailed instructions on how to make custom power settings persistent.
 
+## Current Configuration
+
+The current persistent baseline profile uses:
+
+- CPU governor: `performance`
+- CO undervolt: `-15 mV` (`set-coall=0xFFFEB`)
+
+For full setup and systemd/udev integration details, see [power-configuration.md](power-configuration.md).
+
 ## Usage
 
 ### Power Sweep Optimizer

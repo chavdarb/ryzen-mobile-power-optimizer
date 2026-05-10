@@ -40,7 +40,7 @@ Battery (X160745): 97% (9 hours, 21 mins remaining) [Discharging]
 Locale: en_US.UTF-8
 ```
 
-The test was run with no undervolt, as well as with -15 mV and -20 mV undervolt settings.
+The test was run with no undervolt, as well as with -15 mV and -20 mV undervolt settings. The selected daily profile is -15 mV because it provided the best stability/performance balance.
 
 You can use this calculator for the proper hex value:
 https://www.calculator.net/hex-calculator.html?number1=100000&c2op=-&number2=15&calctype=op&x=Calculate
@@ -56,14 +56,19 @@ We were able to achieve 7W lower sustained power usage (27W), while retaining th
 Final stable command:
 
 ```bash
-/usr/local/bin/ryzenadj --slow-limit=27000 --fast-limit=32000 --set-coall=0xFFFE0 --power-saving
+/usr/local/bin/ryzenadj --slow-limit=27000 --fast-limit=32000 --set-coall=0xFFFEB --power-saving
 ```
+
+Current baseline configuration used in this document:
+
+1. CPU governor: `performance`
+2. CO undervolt: `-15 mV` (`set-coall=0xFFFEB`)
 
 Values used:
 
 1. `slow-limit=27000` (27W sustained power envelope)
 2. `fast-limit=32000` (32W short boost envelope)
-3. `set-coall=0xFFFE0` (-20 mV CO undervolt)
+3. `set-coall=0xFFFEB` (-15 mV CO undervolt)
 4. `--power-saving` (RyzenAdj power-saving mode)
 
 ## 1. Power Configuration Script
@@ -74,7 +79,8 @@ Create the script at `/usr/local/sbin/apply-ryzenadj.sh`:
 #!/usr/bin/env bash
 set -euo pipefail
 
-/usr/local/bin/ryzenadj --slow-limit=27000 --fast-limit=32000 --set-coall=0xFFFE0 --power-saving
+/usr/bin/cpupower frequency-set -g performance
+/usr/local/bin/ryzenadj --slow-limit=27000 --fast-limit=32000 --set-coall=0xFFFEB --power-saving
 ```
 
 Set secure ownership and executable permissions:
